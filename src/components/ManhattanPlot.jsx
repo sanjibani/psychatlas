@@ -14,7 +14,7 @@ const MARGIN = { top: 30, right: 80, bottom: 60, left: 65 };
 const HOVER_RADIUS = 8; // pixel distance for tooltip trigger
 const GRID_CELL = 20; // spatial index cell size in pixels
 
-export default function ManhattanPlot({ data }) {
+export default function ManhattanPlot({ data, onSnpClick }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [tooltip, setTooltip] = useState(null);
@@ -264,6 +264,12 @@ export default function ManhattanPlot({ data }) {
     setTooltip(null);
   }, []);
 
+  const handleClick = useCallback(() => {
+    if (tooltip && onSnpClick) {
+      onSnpClick(tooltip);
+    }
+  }, [tooltip, onSnpClick]);
+
   return (
     <div ref={containerRef} style={{ width: "100%", height: "100%", position: "relative" }}>
       {!data ? (
@@ -283,9 +289,10 @@ export default function ManhattanPlot({ data }) {
         <>
           <canvas
             ref={canvasRef}
-            style={{ display: "block", cursor: tooltip ? "crosshair" : "default" }}
+            style={{ display: "block", cursor: tooltip ? "pointer" : "default" }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
           />
           <Tooltip data={tooltip} x={mousePos.x} y={mousePos.y} />
         </>
