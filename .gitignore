@@ -9,8 +9,7 @@ lerna-debug.log*
 
 node_modules
 
-# Preprocessed data (regenerate with: python3 scripts/preprocess.py)
-public/data/*.json
+# To regenerate data: python3 scripts/preprocess.py
 dist
 dist-ssr
 *.local
